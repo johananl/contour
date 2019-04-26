@@ -300,21 +300,23 @@ func prefixRoute(ingress *v1beta1.Ingress, prefix string) *Route {
 		parseTimeout(ingress.Annotations[annotationPerTryTimeout]))
 
 	return &Route{
-		Prefix:        prefix,
-		HTTPSUpgrade:  tlsRequired(ingress),
-		Websocket:     wr[prefix],
-		TimeoutPolicy: timeoutPolicy(parseAnnotationTimeout(ingress.Annotations, annotationRequestTimeout)),
-		RetryPolicy:   retry,
+		Prefix:       prefix,
+		HTTPSUpgrade: tlsRequired(ingress),
+		Websocket:    wr[prefix],
+		TimeoutPolicy: timeoutPolicy(parseAnnotationTimeout(ingress.Annotations, annotationRequestTimeout),
+			parseAnnotationTimeout(ingress.Annotations, annotationIdleTimeout)),
+		RetryPolicy: retry,
 	}
 }
 
-func timeoutPolicy(timeout time.Duration) *TimeoutPolicy {
-	if timeout == 0 {
+func timeoutPolicy(reqTimeout, idleTimeout time.Duration) *TimeoutPolicy {
+	if reqTimeout == 0 && idleTimeout == 0 {
 		return nil
 	}
 
 	return &TimeoutPolicy{
-		Timeout: timeout,
+		Timeout:     reqTimeout,
+		IdleTimeout: idleTimeout,
 	}
 }
 
@@ -824,9 +826,11 @@ func retryPolicyIngressRoute(rp *ingressroutev1.RetryPolicy) (retryOn string, re
 }
 
 func timeoutPolicyIngressRoute(tp *ingressroutev1.TimeoutPolicy) *TimeoutPolicy {
-	timeout := time.Duration(0)
+	reqTimeout := time.Duration(0)
+	idleTimeout := time.Duration(0)
 	if tp != nil {
-		timeout = parseTimeout(tp.Request)
+		reqTimeout = parseTimeout(tp.Request)
+		idleTimeout = parseTimeout(tp.Idle)
 	}
-	return timeoutPolicy(timeout)
+	return timeoutPolicy(reqTimeout, idleTimeout)
 }

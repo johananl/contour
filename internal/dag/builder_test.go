@@ -363,6 +363,7 @@ func TestDAGInsert(t *testing.T) {
 			Namespace: "default",
 			Annotations: map[string]string{
 				"contour.heptio.com/request-timeout": "peanut",
+				"contour.heptio.com/idle-timeout": "peanut",
 			},
 		},
 		Spec: v1beta1.IngressSpec{
@@ -389,6 +390,7 @@ func TestDAGInsert(t *testing.T) {
 			Namespace: "default",
 			Annotations: map[string]string{
 				"contour.heptio.com/request-timeout": "1m30s", // 90 seconds y'all
+				"contour.heptio.com/idle-timeout": "1m30s", // 90 seconds y'all
 			},
 		},
 		Spec: v1beta1.IngressSpec{
@@ -415,6 +417,7 @@ func TestDAGInsert(t *testing.T) {
 			Namespace: "default",
 			Annotations: map[string]string{
 				"contour.heptio.com/request-timeout": "infinite",
+				"contour.heptio.com/idle-timeout": "infinite",
 			},
 		},
 		Spec: v1beta1.IngressSpec{
@@ -1093,6 +1096,7 @@ func TestDAGInsert(t *testing.T) {
 				Match: "/",
 				TimeoutPolicy: &ingressroutev1.TimeoutPolicy{
 					Request: "peanut",
+					Idle: "peanut",
 				},
 				Services: []ingressroutev1.Service{{
 					Name: "kuard",
@@ -1115,6 +1119,7 @@ func TestDAGInsert(t *testing.T) {
 				Match: "/",
 				TimeoutPolicy: &ingressroutev1.TimeoutPolicy{
 					Request: "1m30s", // 90 seconds y'all
+					Idle: "1m30s", // 90 seconds y'all
 				},
 				Services: []ingressroutev1.Service{{
 					Name: "kuard",
@@ -1137,6 +1142,7 @@ func TestDAGInsert(t *testing.T) {
 				Match: "/",
 				TimeoutPolicy: &ingressroutev1.TimeoutPolicy{
 					Request: "infinite",
+					Idle: "infinite",
 				},
 				Services: []ingressroutev1.Service{{
 					Name: "kuard",
@@ -2084,6 +2090,7 @@ func TestDAGInsert(t *testing.T) {
 							Clusters: clustermap(s1),
 							TimeoutPolicy: &TimeoutPolicy{
 								Timeout: -1, // invalid timeout equals infinity ¯\_(ツ)_/¯.
+								IdleTimeout: -1, // invalid timeout equals infinity ¯\_(ツ)_/¯.
 							},
 						}),
 					),
@@ -2104,6 +2111,7 @@ func TestDAGInsert(t *testing.T) {
 							Clusters: clustermap(s1),
 							TimeoutPolicy: &TimeoutPolicy{
 								Timeout: -1, // invalid timeout equals infinity ¯\_(ツ)_/¯.
+								IdleTimeout: -1, // invalid timeout equals infinity ¯\_(ツ)_/¯.
 							},
 						}),
 					),
@@ -2124,6 +2132,7 @@ func TestDAGInsert(t *testing.T) {
 							Clusters: clustermap(s1),
 							TimeoutPolicy: &TimeoutPolicy{
 								Timeout: 90 * time.Second,
+								IdleTimeout: 90 * time.Second,
 							},
 						}),
 					),
@@ -2144,6 +2153,7 @@ func TestDAGInsert(t *testing.T) {
 							Clusters: clustermap(s1),
 							TimeoutPolicy: &TimeoutPolicy{
 								Timeout: 90 * time.Second,
+								IdleTimeout: 90 * time.Second,
 							},
 						}),
 					),
@@ -2164,6 +2174,7 @@ func TestDAGInsert(t *testing.T) {
 							Clusters: clustermap(s1),
 							TimeoutPolicy: &TimeoutPolicy{
 								Timeout: -1,
+								IdleTimeout: -1,
 							},
 						}),
 					),
@@ -2184,6 +2195,7 @@ func TestDAGInsert(t *testing.T) {
 							Clusters: clustermap(s1),
 							TimeoutPolicy: &TimeoutPolicy{
 								Timeout: -1,
+								IdleTimeout: -1,
 							},
 						}),
 					),

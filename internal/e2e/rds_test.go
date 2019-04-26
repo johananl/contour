@@ -558,6 +558,7 @@ func TestRequestTimeout(t *testing.T) {
 		ObjectMeta: metav1.ObjectMeta{Name: "hello", Namespace: "default",
 			Annotations: map[string]string{
 				"contour.heptio.com/request-timeout": "600", // not valid
+				"contour.heptio.com/idle-timeout": "600", // not valid
 			},
 		},
 		Spec: v1beta1.IngressSpec{
@@ -579,6 +580,7 @@ func TestRequestTimeout(t *testing.T) {
 		ObjectMeta: metav1.ObjectMeta{Name: "hello", Namespace: "default",
 			Annotations: map[string]string{
 				"contour.heptio.com/request-timeout": "600s", // 10 * time.Minute
+				"contour.heptio.com/idle-timeout": "600s", // 10 * time.Minute
 			},
 		},
 		Spec: v1beta1.IngressSpec{
@@ -600,6 +602,7 @@ func TestRequestTimeout(t *testing.T) {
 		ObjectMeta: metav1.ObjectMeta{Name: "hello", Namespace: "default",
 			Annotations: map[string]string{
 				"contour.heptio.com/request-timeout": "infinity",
+				"contour.heptio.com/idle-timeout": "infinity",
 			},
 		},
 		Spec: v1beta1.IngressSpec{
@@ -2292,6 +2295,7 @@ func TestRouteTimeoutPolicyIngressRoute(t *testing.T) {
 				Match: "/",
 				TimeoutPolicy: &ingressroutev1.TimeoutPolicy{
 					Request: "600",
+					Idle: "600",
 				},
 				Services: []ingressroutev1.Service{{
 					Name: "backend",
@@ -2321,6 +2325,7 @@ func TestRouteTimeoutPolicyIngressRoute(t *testing.T) {
 				Match: "/",
 				TimeoutPolicy: &ingressroutev1.TimeoutPolicy{
 					Request: "600s", // 10 * time.Minute
+					Idle: "600s", // 10 * time.Minute
 				},
 				Services: []ingressroutev1.Service{{
 					Name: "backend",
@@ -2350,6 +2355,7 @@ func TestRouteTimeoutPolicyIngressRoute(t *testing.T) {
 				Match: "/",
 				TimeoutPolicy: &ingressroutev1.TimeoutPolicy{
 					Request: "infinity",
+					Idle: "infinity",
 				},
 				Services: []ingressroutev1.Service{{
 					Name: "backend",

@@ -28,6 +28,7 @@ const (
 	// are applied by Contour.
 
 	annotationRequestTimeout     = "contour.heptio.com/request-timeout"
+	annotationIdleTimeout        = "contour.heptio.com/idle-timeout"
 	annotationWebsocketRoutes    = "contour.heptio.com/websocket-routes"
 	annotationUpstreamProtocol   = "contour.heptio.com/upstream-protocol"
 	annotationMaxConnections     = "contour.heptio.com/max-connections"

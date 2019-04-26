@@ -75,7 +75,8 @@ type TimeoutPolicy struct {
 	// A timeout of zero implies "use envoy's default"
 	// A timeout of -1 represents "infinity"
 	// TODO(dfc) should this move to service?
-	Timeout time.Duration
+	Timeout     time.Duration
+	IdleTimeout time.Duration
 }
 
 // RetryPolicy defines the retry / number / timeout options

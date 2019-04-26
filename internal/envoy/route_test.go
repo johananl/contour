@@ -214,6 +214,7 @@ func TestRouteRoute(t *testing.T) {
 				Prefix: "/",
 				TimeoutPolicy: &dag.TimeoutPolicy{
 					Timeout: 90 * time.Second,
+					IdleTimeout: 90 * time.Second,
 				},
 			},
 			clusters: []*dag.Cluster{c1},
@@ -226,6 +227,7 @@ func TestRouteRoute(t *testing.T) {
 						appendHeader("x-request-start", "t=%START_TIME(%s.%3f)%"),
 					),
 					Timeout: duration(90 * time.Second),
+					IdleTimeout: duration(90 * time.Second),
 				},
 			},
 		},
@@ -234,6 +236,7 @@ func TestRouteRoute(t *testing.T) {
 				Prefix: "/",
 				TimeoutPolicy: &dag.TimeoutPolicy{
 					Timeout: -1,
+					IdleTimeout: -1,
 				},
 			},
 			clusters: []*dag.Cluster{c1},
@@ -246,6 +249,7 @@ func TestRouteRoute(t *testing.T) {
 						appendHeader("x-request-start", "t=%START_TIME(%s.%3f)%"),
 					),
 					Timeout: duration(0),
+					IdleTimeout: duration(0),
 				},
 			},
 		},
